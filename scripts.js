@@ -4,6 +4,9 @@ const amount = document.getElementById("amount")
 const expense = document.getElementById("expense")
 const category = document.getElementById("category")
 
+// Seleciona os elementos da lista.
+const expenseList = document.querySelector("ul")
+
 
 //observa toda vez que entrar algum conteudo no input
 amount.oninput = () => {
@@ -29,11 +32,11 @@ function formatCurrencyBRL(value){
 
 // captura o evento de submit do formulario para obter os valores.
 form.onsubmit = (event) => {
-  // Previne o comportamento padrão de recarregar a pagina
+  // Previne o comportamento padrão de recarregar a página
   event.preventDefault()
 
- // Cria um objeto com os detalhes da nova despesa
-  const newExpence = {
+  // Cria um objeto com os detalhes da nova despesa
+  const newExpense = {
     id: new Date().getTime(),
     expense: expense.value,
     category_id: category.value,
@@ -42,16 +45,27 @@ form.onsubmit = (event) => {
     created_at: new Date(),
   }
 
+  // Chama a função para adicionar a despesa à lista
+  expenseAdd(newExpense)
 }
 
-function expenseAdd(newExpense){
+function expenseAdd(newExpense) {
   try {
-// Cria o elemento para adicionar o item (Li) na lista (Ul).
-const expenseItem = document.createElement("li")
-expenseItem.classList.add("expense")
+    // Cria o elemento para adicionar o item (Li) na lista (Ul).
+    const expenseItem = document.createElement("li")
+    expenseItem.classList.add("expense")
 
+    // Cria o icone da categoria.
+    const expenseIcon = document.createElement("img")
+    expenseIcon.setAttribute("src", `img/${newExpense.category_id}.svg`)
+    expenseIcon.setAttribute("alt", newExpense.category_name)
 
-  }catch(error){
+    // Adiciona as informações no item.
+    expenseItem.append(expenseIcon)
+
+    // Adiciona o item na lista.
+    expenseList.append(expenseItem)
+  } catch (error) {
     alert("Não foi possivel atualizar a lista de despesas.")
     console.log(error)
   }
